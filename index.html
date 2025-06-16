@@ -1,179 +1,402 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Boutique de Lunettes</title>
-  <style>
-    /* Style général */
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f9f9f9;
-    }
-    header {
-      position: relative;
-      text-align: center;
-      color: white;
-    }
-    header img.banner {
-      width: 100%;
-      max-height: 300px;
-      object-fit: cover;
-    }
-    header h1 {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background-color: rgba(0, 0, 0, 0.6);
-      padding: 20px;
-      border-radius: 10px;
-    }
-    .container {
-      padding: 20px;
-    }
-    .clearfix::after {
-      content: "";
-      clear: both;
-      display: table;
-    }
-    /* Style produit */
-    .product {
-      background-color: #fff;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      padding: 10px;
-      margin: 10px;
-      width: calc(33% - 40px);
-      box-sizing: border-box;
-      float: left;
-      text-align: center;
-    }
-    .product img {
-      max-width: 100%;
-      height: auto;
-      display: block;
-      margin: 0 auto 10px;
-    }
-    .product h3 {
-      font-size: 18px;
-      margin: 0 0 10px;
-    }
-    .product p {
-      color: #555;
-      margin: 0 0 10px;
-    }
-    .product button {
-      padding: 10px;
-      background-color: #28a745;
-      color: #fff;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      width: 80%;
-    }
-    .product button:hover {
-      background-color: #218838;
-    }
-    /* Style galerie */
-    .gallery {
-      padding: 20px;
-      text-align: center;
-      background-color: #eee;
-      clear: both;
-    }
-    .gallery h2 {
-      margin-bottom: 20px;
-    }
-    .gallery img {
-      width: 30%;
-      margin: 10px;
-      border-radius: 10px;
-      object-fit: cover;
-    }
-    /* Style panier */
-    #cart {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      background-color: #ffcc00;
-      padding: 10px 20px;
-      border-radius: 5px;
-      font-weight: bold;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Éclat & Cime - Chapeaux et Lunettes de Créateur</title>
+    
+    <!-- Polices de caractères de Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    
+    <!-- Icônes Font Awesome pour les réseaux sociaux -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+
+    <style>
+        /* --- VARIABLES CSS POUR UNE PERSONNALISATION FACILE --- */
+        :root {
+            --primary-color: #2c3e50; /* Bleu marine foncé */
+            --secondary-color: #e74c3c; /* Rouge-orangé pour les accents */
+            --background-color: #ecf0f1; /* Gris très clair */
+            --text-color: #34495e; /* Gris foncé */
+            --light-text-color: #ffffff;
+            --font-title: 'Playfair Display', serif;
+            --font-body: 'Montserrat', sans-serif;
+        }
+
+        /* --- STYLES GLOBAUX --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--text-color);
+            line-height: 1.6;
+            background-color: var(--background-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 0 20px;
+        }
+
+        h1, h2, h3 {
+            font-family: var(--font-title);
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+        }
+
+        section {
+            padding: 80px 0;
+        }
+
+        /* --- HEADER & NAVIGATION --- */
+        .main-header {
+            background: var(--light-text-color);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .main-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: var(--font-title);
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .main-nav ul {
+            list-style: none;
+            display: flex;
+        }
+
+        .main-nav a {
+            color: var(--text-color);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        .main-nav a:hover {
+            color: var(--secondary-color);
+        }
+
+        /* --- SECTION HÉROS (ACCUEIL) --- */
+        #hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1529958030586-3aae4ca485ff?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=1600') no-repeat center center/cover;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: var(--light-text-color);
+            padding: 0 20px;
+        }
+
+        .hero-content h1 {
+            font-size: 4rem;
+            color: var(--light-text-color);
+            margin-bottom: 1rem;
+        }
+
+        .hero-content p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: var(--secondary-color);
+            color: var(--light-text-color);
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background: #c0392b; /* Version plus foncée de la couleur secondaire */
+        }
+
+        /* --- SECTION PRODUITS --- */
+        #products {
+            background-color: #fff;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .product-card {
+            background: var(--light-text-color);
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+        
+        .product-card-content {
+            padding: 20px;
+        }
+
+        .product-card h3 {
+            font-size: 1.4rem;
+        }
+
+        .product-price {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--secondary-color);
+        }
+
+        /* --- SECTION À PROPOS --- */
+        #about .container {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+
+        .about-image {
+            flex: 1;
+            max-width: 45%;
+        }
+        
+        .about-image img {
+            width: 100%;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .about-content {
+            flex: 1;
+        }
+        
+        .about-content h2 {
+            text-align: left;
+        }
+
+        /* --- FOOTER --- */
+        .main-footer {
+            background-color: var(--primary-color);
+            color: var(--light-text-color);
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .main-footer h3 {
+            color: var(--light-text-color);
+        }
+
+        .social-links a {
+            color: var(--light-text-color);
+            font-size: 1.8rem;
+            margin: 0 15px;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--secondary-color);
+        }
+
+        .footer-bottom {
+            margin-top: 40px;
+            border-top: 1px solid #4a627a;
+            padding-top: 20px;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* --- RESPONSIVE DESIGN --- */
+        @media (max-width: 768px) {
+            .main-header .container {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .main-nav ul {
+                padding: 0;
+            }
+            
+            #hero {
+                height: 80vh;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            .hero-content p {
+                font-size: 1.2rem;
+            }
+            
+            h2 {
+                font-size: 2rem;
+            }
+            
+            #about .container {
+                flex-direction: column;
+            }
+            
+            .about-image {
+                max-width: 100%;
+            }
+        }
+    </style>
 </head>
 <body>
-  <header>
-    <img src="banner.png" class="banner" alt="Bannière de la boutique">
-    <h1>Boutique de Lunettes</h1>
-  </header>
 
-  <!-- Affichage du panier -->
-  <div id="cart">
-    Panier : <span id="cartCount">0</span> article(s)
-  </div>
+    <!-- ==================== HEADER ==================== -->
+    <header class="main-header">
+        <div class="container">
+            <a href="#hero" class="logo">Éclat & Cime</a>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="#hero">Accueil</a></li>
+                    <li><a href="#products">Nos Produits</a></li>
+                    <li><a href="#about">Notre Histoire</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
 
-  <div class="container clearfix">
-    <!-- Produit 1 -->
-    <div class="product" data-id="1" data-name="Lunettes Classiques" data-price="49.99">
-      <img src="img" alt="Lunettes Classiques">
-      <h3>Lunettes Classiques</h3>
-      <p>Prix: 49.99 €</p>
-      <button onclick="ajouterAuPanier(this)">Ajouter au panier</button>
-    </div>
-    <!-- Produit 2 -->
-    <div class="product" data-id="2" data-name="Lunettes Modernes" data-price="59.99">
-      <img src="modern.png" alt="Lunettes Modernes">
-      <h3>Lunettes Modernes</h3>
-      <p>Prix: 59.99 €</p>
-      <button onclick="ajouterAuPanier(this)">Ajouter au panier</button>
-    </div>
-    <!-- Produit 3 -->
-    <div class="product" data-id="3" data-name="Lunettes de Soleil" data-price="69.99">
-      <img src="sol.png" alt="Lunettes de Soleil">
-      <h3>Lunettes de Soleil</h3>
-      <p>Prix: 69.99 €</p>
-      <button onclick="ajouterAuPanier(this)">Ajouter au panier</button>
-    </div>
-  </div>
+    <main>
+        <!-- ==================== SECTION HÉROS ==================== -->
+        <section id="hero">
+            <div class="hero-content">
+                <h1>Le Style au Sommet, la Vision Claire.</h1>
+                <p>Découvrez nos collections exclusives de chapeaux et lunettes, conçues pour affirmer votre personnalité.</p>
+                <a href="#products" class="cta-button">Explorer nos collections</a>
+            </div>
+        </section>
 
-  <!-- Section Galerie -->
-  <div class="gallery">
-    <h2>Notre Collection</h2>
-    <img src="img/col1">
-    <img src="img/col2">
-    <img src="img/col3">
-  </div>
+        <!-- ==================== SECTION PRODUITS ==================== -->
+        <section id="products">
+            <div class="container">
+                <h2>Nos Incontournables</h2>
+                <div class="product-grid">
+                    <!-- Produit 1 -->
+                    <article class="product-card">
+                        <img src="https://images.unsplash.com/photo-1533055640233-b2e193315a95?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=600" alt="Chapeau Fédora élégant">
+                        <div class="product-card-content">
+                            <h3>Le Fédora Intemporel</h3>
+                            <p class="product-price">129 €</p>
+                        </div>
+                    </article>
+                    <!-- Produit 2 -->
+                    <article class="product-card">
+                        <img src="https://images.unsplash.com/photo-1572635196237-14b3f281503f?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=600" alt="Lunettes de soleil aviateur">
+                        <div class="product-card-content">
+                            <h3>Les Solaires Aviateur</h3>
+                            <p class="product-price">149 €</p>
+                        </div>
+                    </article>
+                    <!-- Produit 3 -->
+                    <article class="product-card">
+                        <img src="https://images.unsplash.com/photo-1590321799292-6f29a0f785a6?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=600" alt="Chapeau de paille Panama">
+                        <div class="product-card-content">
+                            <h3>Le Panama Estival</h3>
+                            <p class="product-price">99 €</p>
+                        </div>
+                    </article>
+                    <!-- Produit 4 -->
+                     <article class="product-card">
+                        <img src="https://images.unsplash.com/photo-1620138546344-7b2c347e8f23?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=600" alt="Lunettes de vue rondes">
+                        <div class="product-card-content">
+                            <h3>Les Rondes Intellectuelles</h3>
+                            <p class="product-price">179 €</p>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
 
-  <script>
-    // Tableau pour stocker les articles du panier
-    let panier = [];
+        <!-- ==================== SECTION À PROPOS ==================== -->
+        <section id="about">
+            <div class="container">
+                <div class="about-image">
+                    <img src="https://images.unsplash.com/photo-1524672363155-d05335137741?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=800" alt="Atelier de création de chapeaux et lunettes">
+                </div>
+                <div class="about-content">
+                    <h2>Notre Histoire</h2>
+                    <p>Fondée sur une passion pour l'artisanat et l'élégance, <strong>Éclat & Cime</strong> est née du désir de créer des accessoires qui ne sont pas de simples objets, mais de véritables extensions de votre personnalité. Chaque chapeau est façonné avec soin et chaque paire de lunettes est assemblée avec une précision d'orfèvre.</p>
+                    <p>Nous parcourons le monde pour sélectionner les meilleurs matériaux, car nous croyons que la qualité est la base du style durable. Rejoignez-nous dans notre quête de l'accessoire parfait.</p>
+                </div>
+            </div>
+        </section>
+    </main>
 
-    // Fonction pour ajouter un produit au panier
-    function ajouterAuPanier(bouton) {
-      const produit = bouton.parentElement;
-      const id = produit.getAttribute("data-id");
-      const nom = produit.getAttribute("data-name");
-      const prix = parseFloat(produit.getAttribute("data-price"));
-      
-      // Vérification si le produit est déjà présent dans le panier
-      const item = panier.find(article => article.id === id);
-      if (item) {
-        item.quantite++;
-      } else {
-        panier.push({ id: id, nom: nom, prix: prix, quantite: 1 });
-      }
-      miseAJourPanier();
-    }
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="main-footer" id="contact">
+        <div class="container">
+            <h3>Éclat & Cime</h3>
+            <p>Le style est une façon de dire qui vous êtes sans parler.</p>
+            <div class="social-links">
+                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" aria-label="Pinterest"><i class="fab fa-pinterest"></i></a>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Éclat & Cime. Tous droits réservés.</p>
+                <p>123 Rue du Style, 75001 Paris | contact@eclat-cime.fr</p>
+            </div>
+        </div>
+    </footer>
 
-    // Fonction pour mettre à jour l'affichage du panier
-    function miseAJourPanier() {
-      const totalArticles = panier.reduce((total, article) => total + article.quantite, 0);
-      document.getElementById("cartCount").textContent = totalArticles;
-    }
-  </script>
+    <!-- Script pour le smooth scroll (optionnel mais recommandé) -->
+    <script>
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+
 </body>
 </html>

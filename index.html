@@ -3,390 +3,379 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Éclat & Cime - Chapeaux et Lunettes de Créateur</title>
-    
-    <!-- Polices de caractères de Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-    
-    <!-- Icônes Font Awesome pour les réseaux sociaux -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
-
+    <title>Connectia Solutions - Développement Informatique sur Demande</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        /* --- VARIABLES CSS POUR UNE PERSONNALISATION FACILE --- */
-        :root {
-            --primary-color: #2c3e50; /* Bleu marine foncé */
-            --secondary-color: #e74c3c; /* Rouge-orangé pour les accents */
-            --background-color: #ecf0f1; /* Gris très clair */
-            --text-color: #34495e; /* Gris foncé */
-            --light-text-color: #ffffff;
-            --font-title: 'Playfair Display', serif;
-            --font-body: 'Montserrat', sans-serif;
-        }
-
-        /* --- STYLES GLOBAUX --- */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
         body {
-            font-family: var(--font-body);
-            color: var(--text-color);
-            line-height: 1.6;
-            background-color: var(--background-color);
+            font-family: 'Inter', sans-serif;
+            background-color: #1a1a1a; /* Gris très foncé / presque noir pour le fond principal */
+            color: #e0e0e0; /* Gris clair pour le texte principal */
+        }
+        .text-uhc-primary {
+            color: #5bff5b; /* Vert vif pour l'accentuation principale */
+        }
+        .bg-uhc-primary {
+            background-color: #5bff5b;
+        }
+        .text-uhc-secondary {
+            color: #007bff; /* Bleu profond pour une accentuation secondaire */
+        }
+        .bg-uhc-secondary {
+            background-color: #007bff;
+        }
+        .text-uhc-neutral {
+            color: #4a4a4a; /* Gris neutre pour les éléments secondaires */
+        }
+        .bg-uhc-card {
+            background-color: #2a2a2a; /* Fond des cartes légèrement plus clair que le body */
         }
 
-        .container {
-            max-width: 1200px;
-            margin: auto;
-            padding: 0 20px;
+        .btn-primary {
+            @apply bg-uhc-primary text-black py-3 px-6 rounded-lg font-bold hover:bg-green-400 transition duration-300 ease-in-out shadow-lg;
+            border: 2px solid #5bff5b; /* Bordure assortie */
         }
-
-        h1, h2, h3 {
-            font-family: var(--font-title);
-            color: var(--primary-color);
-            margin-bottom: 20px;
+        .btn-secondary {
+            @apply bg-transparent text-uhc-primary py-3 px-6 rounded-lg font-bold hover:bg-uhc-primary hover:text-black transition duration-300 ease-in-out shadow-md;
+            border: 2px solid #5bff5b; /* Bordure assortie pour le secondaire */
         }
-
-        h2 {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 40px;
+        .hero-section {
+            background-image: url('https://placehold.co/1920x800/1a1a1a/5bff5b?text=Developpment+Solutions'); /* Image placeholder sombre avec touche UHC */
+            background-size: cover;
+            background-position: center;
+            position: relative;
         }
-
-        section {
-            padding: 80px 0;
-        }
-
-        /* --- HEADER & NAVIGATION --- */
-        .main-header {
-            background: var(--light-text-color);
-            padding: 1rem 0;
-            position: fixed;
-            width: 100%;
+        .hero-section::before {
+            content: '';
+            position: absolute;
             top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.7); /* Overlay plus sombre */
+            z-index: 1;
         }
-
-        .main-header .container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .hero-content {
+            position: relative;
+            z-index: 2;
         }
-
-        .logo {
-            font-family: var(--font-title);
-            font-size: 1.8rem;
-            color: var(--primary-color);
-            text-decoration: none;
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
         }
-
-        .main-nav ul {
-            list-style: none;
-            display: flex;
+        .fade-in.appear {
+            opacity: 1;
+            transform: translateY(0);
         }
-
-        .main-nav a {
-            color: var(--text-color);
-            text-decoration: none;
-            padding: 0.5rem 1rem;
-            font-weight: bold;
-            transition: color 0.3s ease;
-        }
-
-        .main-nav a:hover {
-            color: var(--secondary-color);
-        }
-
-        /* --- SECTION HÉROS (ACCUEIL) --- */
-        #hero {
-            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1529958030586-3aae4ca485ff?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=1600') no-repeat center center/cover;
-            height: 100vh;
+        /* Style for the article and casestudy modals */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85); /* Plus sombre */
             display: flex;
             justify-content: center;
             align-items: center;
-            text-align: center;
-            color: var(--light-text-color);
-            padding: 0 20px;
+            z-index: 1000;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0s, opacity 0.3s ease-in-out;
         }
-
-        .hero-content h1 {
-            font-size: 4rem;
-            color: var(--light-text-color);
-            margin-bottom: 1rem;
+        .modal-overlay.show {
+            visibility: visible;
+            opacity: 1;
         }
-
-        .hero-content p {
+        .modal-content {
+            background-color: #2a2a2a; /* Fond des modals sombre */
+            color: #e0e0e0; /* Texte clair dans le modal */
+            padding: 2.5rem;
+            border-radius: 0.75rem;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+        }
+        .modal-overlay.show .modal-content {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        .close-modal-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
             font-size: 1.5rem;
-            margin-bottom: 2rem;
-            max-width: 600px;
+            cursor: pointer;
+            color: #e0e0e0; /* Couleur du bouton de fermeture claire */
         }
-
-        .cta-button {
-            display: inline-block;
-            background: var(--secondary-color);
-            color: var(--light-text-color);
-            padding: 15px 30px;
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: bold;
-            font-size: 1.1rem;
-            transition: background-color 0.3s ease;
+        /* Adjust prose styles for dark theme within modals */
+        .prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
+            color: #5bff5b; /* Vert vif pour les titres à l'intérieur du texte */
         }
-
-        .cta-button:hover {
-            background: #c0392b; /* Version plus foncée de la couleur secondaire */
+        .prose strong {
+            color: #007bff; /* Bleu profond pour le gras */
         }
-
-        /* --- SECTION PRODUITS --- */
-        #products {
-            background-color: #fff;
+        .prose a {
+            color: #00BCD4; /* Cyan dynamique pour les liens */
         }
-
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
+        .prose p {
+            color: #e0e0e0; /* Gris clair pour les paragraphes */
         }
-
-        .product-card {
-            background: var(--light-text-color);
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            overflow: hidden;
-            text-align: center;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        .prose ul, .prose ol {
+            color: #e0e0e0;
         }
-
-        .product-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
-        }
-
-        .product-card img {
-            width: 100%;
-            height: 250px;
-            object-fit: cover;
-        }
-        
-        .product-card-content {
-            padding: 20px;
-        }
-
-        .product-card h3 {
-            font-size: 1.4rem;
-        }
-
-        .product-price {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: var(--secondary-color);
-        }
-
-        /* --- SECTION À PROPOS --- */
-        #about .container {
-            display: flex;
-            align-items: center;
-            gap: 50px;
-        }
-
-        .about-image {
-            flex: 1;
-            max-width: 45%;
-        }
-        
-        .about-image img {
-            width: 100%;
-            border-radius: 5px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        .about-content {
-            flex: 1;
-        }
-        
-        .about-content h2 {
-            text-align: left;
-        }
-
-        /* --- FOOTER --- */
-        .main-footer {
-            background-color: var(--primary-color);
-            color: var(--light-text-color);
-            padding: 60px 0;
-            text-align: center;
-        }
-
-        .main-footer h3 {
-            color: var(--light-text-color);
-        }
-
-        .social-links a {
-            color: var(--light-text-color);
-            font-size: 1.8rem;
-            margin: 0 15px;
-            transition: color 0.3s ease;
-        }
-
-        .social-links a:hover {
-            color: var(--secondary-color);
-        }
-
-        .footer-bottom {
-            margin-top: 40px;
-            border-top: 1px solid #4a627a;
-            padding-top: 20px;
-            font-size: 0.9rem;
-            opacity: 0.8;
-        }
-
-        /* --- RESPONSIVE DESIGN --- */
-        @media (max-width: 768px) {
-            .main-header .container {
-                flex-direction: column;
-                gap: 10px;
-            }
-
-            .main-nav ul {
-                padding: 0;
-            }
-            
-            #hero {
-                height: 80vh;
-            }
-
-            .hero-content h1 {
-                font-size: 2.5rem;
-            }
-            .hero-content p {
-                font-size: 1.2rem;
-            }
-            
-            h2 {
-                font-size: 2rem;
-            }
-            
-            #about .container {
-                flex-direction: column;
-            }
-            
-            .about-image {
-                max-width: 100%;
-            }
+        .prose li {
+            color: #e0e0e0;
         }
     </style>
 </head>
-<body>
+<body class="leading-relaxed">
 
-    <!-- ==================== HEADER ==================== -->
-    <header class="main-header">
-        <div class="container">
-            <a href="#hero" class="logo">Éclat & Cime</a>
-            <nav class="main-nav">
-                <ul>
-                    <li><a href="#hero">Accueil</a></li>
-                    <li><a href="#products">Nos Produits</a></li>
-                    <li><a href="#about">Notre Histoire</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
-            </nav>
+    <!-- Navigation Bar -->
+    <header class="bg-uhc-card shadow-md py-4 sticky top-0 z-50">
+        <nav class="container mx-auto px-4 flex justify-between items-center">
+            <!-- Brand Logo/Name -->
+            <a href="#" class="flex items-center space-x-2">
+                <!-- More developed SVG Logo for demonstration (interconnected nodes) -->
+                <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zM12 4c4.418 0 8 3.582 8 8s-3.582 8-8 8-8-3.582-8-8 3.582-8 8-8zm0 2.5C9.515 6.5 7.5 8.515 7.5 11h-2C5.5 7.424 8.424 4.5 12 4.5V6.5zm0 11V16.5c3.485 0 6.5-2.015 6.5-5.5h2C20.5 16.576 17.576 19.5 12 19.5zM12 13c-1.105 0-2 .895-2 2s.895 2 2 2 2-.895 2-2-.895-2-2-2z" fill="#5bff5b"/>
+                    <circle cx="12" cy="12" r="2" fill="#007bff"/>
+                    <path d="M12 11h-1.5c-1.105 0-2 .895-2 2s.895 2 2 2H12v-4z" fill="#007bff"/>
+                    <path d="M12 11h1.5c1.105 0 2 .895 2 2s-.895 2-2 2H12v-4z" fill="#5bff5b"/>
+                    <path d="M12 9c-1.105 0-2 .895-2 2h4c0-1.105-.895-2-2-2z" fill="#5bff5b"/>
+                    <path d="M12 15c1.105 0 2-.895 2-2h-4c0 1.105.895 2 2 2z" fill="#007bff"/>
+                </svg>
+                <span class="font-bold text-xl text-e0e0e0">Connectia Solutions</span>
+            </a>
+
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-button" class="md:hidden focus:outline-none">
+                <svg class="w-6 h-6 text-e0e0e0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                </svg>
+            </button>
+
+            <!-- Navigation Links -->
+            <div id="navigation-links" class="hidden md:flex md:items-center space-x-6">
+                <a href="#accueil" class="text-e0e0e0 hover:text-uhc-primary transition duration-200">Accueil</a>
+                <a href="#services" class="text-e0e0e0 hover:text-uhc-primary transition duration-200">Services</a>
+                <a href="#projets" class="text-e0e0e0 hover:text-uhc-primary transition duration-200">Projets</a>
+                <a href="#a-propos" class="text-e0e0e0 hover:text-uhc-primary transition duration-200">À Propos</a>
+                <a href="#contact" class="text-e0e0e0 hover:text-uhc-primary transition duration-200">Contact</a>
+                <a href="#blog" class="text-e0e0e0 hover:text-uhc-primary transition duration-200">Blog</a>
+            </div>
+        </nav>
+
+        <!-- Mobile Menu (hidden by default) -->
+        <div id="mobile-menu" class="md:hidden hidden bg-uhc-card px-4 pt-2 pb-4 shadow-inner">
+            <a href="#accueil" class="block py-2 text-e0e0e0 hover:text-uhc-primary">Accueil</a>
+            <a href="#services" class="block py-2 text-e0e0e0 hover:text-uhc-primary">Services</a>
+            <a href="#projets" class="block py-2 text-e0e0e0 hover:text-uhc-primary">Projets</a>
+            <a href="#a-propos" class="block py-2 text-e0e0e0 hover:text-uhc-primary">À Propos</a>
+            <a href="#contact" class="block py-2 text-e0e0e0 hover:text-uhc-primary">Contact</a>
+            <a href="#blog" class="block py-2 text-e0e0e0 hover:text-uhc-primary">Blog</a>
         </div>
     </header>
 
-    <main>
-        <!-- ==================== SECTION HÉROS ==================== -->
-        <section id="hero">
-            <div class="hero-content">
-                <h1>Le Style au Sommet, la Vision Claire.</h1>
-                <p>Découvrez nos collections exclusives de chapeaux et lunettes, conçues pour affirmer votre personnalité.</p>
-                <a href="#products" class="cta-button">Explorer nos collections</a>
+    <!-- Hero Section -->
+    <section id="accueil" class="hero-section h-screen flex items-center justify-center text-center">
+        <div class="hero-content text-white p-8 rounded-lg max-w-4xl mx-auto fade-in">
+            <h1 class="text-5xl md:text-6xl font-bold mb-4">Votre vision, notre code.</h1>
+            <p class="text-xl md:text-2xl mb-8">Des solutions numériques sur mesure pour votre succès.</p>
+            <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+                <a href="#contact" class="btn-primary">Demander un Devis</a>
+                <a href="#services" class="btn-secondary">Découvrir nos Services</a>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- ==================== SECTION PRODUITS ==================== -->
-        <section id="products">
-            <div class="container">
-                <h2>Nos Incontournables</h2>
-                <div class="product-grid">
-                    <!-- Produit 1 -->
-                    <article class="product-card">
-                        <img src="https://th.bing.com/th/id/OIP.qBjUfzOjUcjDzhARrDNYGQHaHa?w=168&h=180&c=7&r=0&o=7&pid=1.7&rm=3" alt="Chapeau Fédora élégant">
-                        <div class="product-card-content">
-                            <h3>Le Fédora Intemporel</h3>
-                            <p class="product-price">129 €</p>
-                        </div>
-                    </article>
-                    <!-- Produit 2 -->
-                    <article class="product-card">
-                        <img src="https://images.unsplash.com/photo-1572635196237-14b3f281503f?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=600" alt="Lunettes de soleil aviateur">
-                        <div class="product-card-content">
-                            <h3>Les Solaires Aviateur</h3>
-                            <p class="product-price">149 €</p>
-                        </div>
-                    </article>
-                    <!-- Produit 3 -->
-                    <article class="product-card">
-                        <img src="https://th.bing.com/th/id/OIP.dUnum_ZOq12Chp1xQ5xTwwHaHa?w=184&h=185&c=7&r=0&o=7&pid=1.7&rm=3" alt="Chapeau de paille Panama">
-                        <div class="product-card-content">
-                            <h3>Le Panama Estival</h3>
-                            <p class="product-price">99 €</p>
-                        </div>
-                    </article>
-                    <!-- Produit 4 -->
-                     <article class="product-card">
-                        <img src="https://th.bing.com/th/id/OIP.FFHH49bMMs2CBvQo1u-wfwHaEJ?w=319&h=180&c=7&r=0&o=7&pid=1.7&rm=3" alt="Lunettes de vue rondes">
-                        <div class="product-card-content">
-                            <h3>Les Rondes Intellectuelles</h3>
-                            <p class="product-price">179 €</p>
-                        </div>
-                    </article>
+    <!-- Services Section -->
+    <section id="services" class="py-20 bg-uhc-card shadow-lg rounded-xl mx-auto max-w-6xl my-10 px-8 fade-in">
+        <div class="container mx-auto text-center">
+            <h2 class="text-4xl font-bold text-uhc-primary mb-8">Nos Services de Développement</h2>
+            <p class="text-lg leading-relaxed mb-12 text-e0e0e0">
+                Nous transformons vos idées en solutions numériques robustes et performantes, adaptées à vos besoins spécifiques.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                <!-- Service Card 1 -->
+                <div class="bg-uhc-card border border-uhc-neutral rounded-xl shadow-lg overflow-hidden flex flex-col items-center p-6 text-center transform hover:scale-105 transition duration-300 ease-in-out">
+                    <img src="https://placehold.co/300x200/2a2a2a/5bff5b?text=D%C3%A9veloppement+Web" alt="Développement Web" class="w-full h-48 object-cover rounded-lg mb-4">
+                    <h3 class="text-2xl font-semibold text-uhc-primary mb-2">Développement Web sur Mesure</h3>
+                    <p class="text-md text-e0e0e0 mb-4 flex-grow">Sites web dynamiques, plateformes e-commerce, applications web complexes et portails interactifs.</p>
+                    <button class="btn-primary">En savoir plus</button>
+                </div>
+                <!-- Service Card 2 -->
+                <div class="bg-uhc-card border border-uhc-neutral rounded-xl shadow-lg overflow-hidden flex flex-col items-center p-6 text-center transform hover:scale-105 transition duration-300 ease-in-out">
+                    <img src="https://placehold.co/300x200/2a2a2a/007bff?text=Applications+Mobiles" alt="Applications Mobiles" class="w-full h-48 object-cover rounded-lg mb-4">
+                    <h3 class="text-2xl font-semibold text-uhc-secondary mb-2">Applications Mobiles (iOS/Android)</h3>
+                    <p class="text-md text-e0e0e0 mb-4 flex-grow">Conception et développement d'applications mobiles intuitives et performantes pour tous les systèmes.</p>
+                    <button class="btn-primary">En savoir plus</button>
+                </div>
+                <!-- Service Card 3 -->
+                <div class="bg-uhc-card border border-uhc-neutral rounded-xl shadow-lg overflow-hidden flex flex-col items-center p-6 text-center transform hover:scale-105 transition duration-300 ease-in-out">
+                    <img src="https://placehold.co/300x200/2a2a2a/00BCD4?text=Logiciels+Personnalis%C3%A9s" alt="Logiciels Personnalisés" class="w-full h-48 object-cover rounded-lg mb-4">
+                    <h3 class="text-2xl font-semibold text-uhc-accent mb-2">Logiciels Métiers Personnalisés</h3>
+                    <p class="text-md text-e0e0e0 mb-4 flex-grow">Des solutions logicielles adaptées à vos processus métier pour optimiser votre productivité.</p>
+                    <button class="btn-primary">En savoir plus</button>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- ==================== SECTION À PROPOS ==================== -->
-        <section id="about">
-            <div class="container">
-                <div class="about-image">
-                    <img src="https://images.unsplash.com/photo-1524672363155-d05335137741?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=800" alt="Atelier de création de chapeaux et lunettes">
+    <!-- About Us Section -->
+    <section id="a-propos" class="py-20 bg-1a1a1a fade-in">
+        <div class="container mx-auto px-8 text-center">
+            <h2 class="text-4xl font-bold text-uhc-primary mb-8">Qui Sommes-Nous ?</h2>
+            <p class="text-lg leading-relaxed mb-6 text-e0e0e0">
+                Chez **Connectia Solutions**, nous sommes une équipe de développeurs passionnés et d'experts en technologie dédiés à la création de solutions numériques innovantes. Nous travaillons en étroite collaboration avec nos clients pour comprendre leurs défis uniques et construire des logiciels qui génèrent un impact réel.
+            </p>
+            <p class="text-lg leading-relaxed text-e0e0e0">
+                Notre approche agile garantit transparence, flexibilité et livraison rapide, assurant que votre projet est non seulement achevé dans les délais, mais qu'il dépasse également vos attentes.
+            </p>
+            <button class="btn-secondary mt-8">En savoir plus sur notre histoire</button>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projets" class="py-20 bg-uhc-card shadow-lg rounded-xl mx-auto max-w-6xl my-10 px-8 fade-in">
+        <div class="container mx-auto text-center">
+            <h2 class="text-4xl font-bold text-uhc-primary mb-8">Nos Réalisations</h2>
+            <p class="text-lg leading-relaxed mb-12 text-e0e0e0">
+                Découvrez quelques-uns des projets sur lesquels nous avons eu le plaisir de travailler et les résultats que nous avons obtenus pour nos clients.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                <!-- Project Card 1 -->
+                <div class="bg-uhc-card border border-uhc-neutral rounded-xl shadow-lg overflow-hidden p-6 text-left transform hover:scale-105 transition duration-300 ease-in-out">
+                    <img src="https://placehold.co/400x250/2a2a2a/5bff5b?text=Projet+E-commerce" alt="Projet E-commerce" class="w-full h-auto object-cover rounded-lg mb-4">
+                    <h3 class="text-2xl font-semibold text-uhc-primary mb-2">Plateforme E-commerce B2B</h3>
+                    <p class="text-md text-e0e0e0 mb-4">Conception et développement d'une solution e-commerce personnalisée pour un distributeur industriel.</p>
+                    <button class="view-casestudy-btn text-uhc-primary font-semibold hover:underline" data-casestudy-id="casestudy1">Voir le Cas Client &rarr;</button>
                 </div>
-                <div class="about-content">
-                    <h2>Notre Histoire</h2>
-                    <p>Fondée sur une passion pour l'artisanat et l'élégance, <strong>Éclat & Cime</strong> est née du désir de créer des accessoires qui ne sont pas de simples objets, mais de véritables extensions de votre personnalité. Chaque chapeau est façonné avec soin et chaque paire de lunettes est assemblée avec une précision d'orfèvre.</p>
-                    <p>Nous parcourons le monde pour sélectionner les meilleurs matériaux, car nous croyons que la qualité est la base du style durable. Rejoignez-nous dans notre quête de l'accessoire parfait.</p>
+                <!-- Project Card 2 -->
+                <div class="bg-uhc-card border border-uhc-neutral rounded-xl shadow-lg overflow-hidden p-6 text-left transform hover:scale-105 transition duration-300 ease-in-out">
+                    <img src="https://placehold.co/400x250/2a2a2a/007bff?text=App+Mobile+RH" alt="App Mobile RH" class="w-full h-auto object-cover rounded-lg mb-4">
+                    <h3 class="text-2xl font-semibold text-uhc-secondary mb-2">Application Mobile RH Innovante</h3>
+                    <p class="text-md text-e0e0e0 mb-4">Développement d'une application mobile interne pour la gestion des ressources humaines d'une grande entreprise.</p>
+                    <button class="view-casestudy-btn text-uhc-primary font-semibold hover:underline" data-casestudy-id="casestudy2">Voir le Cas Client &rarr;</button>
+                </div>
+                <!-- Project Card 3: Loup Garou UHC Plugin -->
+                <div class="bg-uhc-card border border-uhc-neutral rounded-xl shadow-lg overflow-hidden p-6 text-left transform hover:scale-105 transition duration-300 ease-in-out">
+                    <img src="https://placehold.co/400x250/2a2a2a/00BCD4?text=Plugin+Minecraft" alt="Plugin Minecraft UHC Loup-Garou" class="w-full h-auto object-cover rounded-lg mb-4">
+                    <h3 class="text-2xl font-semibold text-uhc-accent mb-2">Plugin de Jeu Minecraft Personnalisé</h3>
+                    <p class="text-md text-e0e0e0 mb-4">Création d'un plugin Loup-Garou UHC sur mesure pour serveurs Minecraft, enrichissant l'expérience de jeu.</p>
+                    <button class="view-casestudy-btn text-uhc-primary font-semibold hover:underline" data-casestudy-id="casestudy3">Voir le Cas Client &rarr;</button>
                 </div>
             </div>
-        </section>
-    </main>
+            <button class="btn-secondary mt-10">Voir tous nos Projets</button>
+        </div>
+    </section>
 
-    <!-- ==================== FOOTER ==================== -->
-    <footer class="main-footer" id="contact">
-        <div class="container">
-            <h3>Éclat & Cime</h3>
-            <p>Le style est une façon de dire qui vous êtes sans parler.</p>
-            <div class="social-links">
-                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                <a href="#" aria-label="Pinterest"><i class="fab fa-pinterest"></i></a>
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-1a1a1a fade-in">
+        <div class="container mx-auto px-8 text-center">
+            <h2 class="text-4xl font-bold text-uhc-primary mb-8">Discutons de Votre Projet</h2>
+            <p class="text-lg leading-relaxed mb-8 text-e0e0e0">
+                Prêt à transformer votre idée en réalité numérique ? Contactez-nous pour un devis personnalisé et sans engagement.
+            </p>
+            <form class="max-w-xl mx-auto">
+                <div class="mb-6">
+                    <input type="text" id="name" name="name" placeholder="Votre Nom" class="w-full p-4 border border-uhc-neutral rounded-lg focus:outline-none focus:border-uhc-primary bg-uhc-card text-e0e0e0" required>
+                </div>
+                <div class="mb-6">
+                    <input type="email" id="email" name="email" placeholder="Votre Email Professionnel" class="w-full p-4 border border-uhc-neutral rounded-lg focus:outline-none focus:border-uhc-primary bg-uhc-card text-e0e0e0" required>
+                </div>
+                <div class="mb-6">
+                    <input type="text" id="subject" name="subject" placeholder="Sujet (ex: Devis site web, App mobile)" class="w-full p-4 border border-uhc-neutral rounded-lg focus:outline-none focus:border-uhc-primary bg-uhc-card text-e0e0e0">
+                </div>
+                <div class="mb-6">
+                    <textarea id="message" name="message" rows="6" placeholder="Décrivez votre projet ou votre besoin..." class="w-full p-4 border border-uhc-neutral rounded-lg focus:outline-none focus:border-uhc-primary bg-uhc-card text-e0e0e0" required></textarea>
+                </div>
+                <button type="submit" class="btn-primary w-full md:w-auto">Envoyer ma Demande</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Blog Section -->
+    <section id="blog" class="py-20 bg-uhc-card shadow-lg rounded-xl mx-auto max-w-6xl my-10 px-8 fade-in">
+        <div class="container mx-auto px-8 text-center">
+            <h2 class="text-4xl font-bold text-uhc-primary mb-8">Notre Blog Tech & Innovation</h2>
+            <p class="text-lg leading-relaxed mb-8 text-e0e0e0">
+                Restez informé des dernières tendances du développement, des astuces techniques et de nos retours d'expérience.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-uhc-card border border-uhc-neutral rounded-xl shadow-lg p-6 text-left transform hover:scale-105 transition duration-300 ease-in-out">
+                    <h3 class="text-2xl font-semibold text-uhc-primary mb-2">Les 5 tendances clés du développement web en 2024</h3>
+                    <p class="text-md text-e0e0e0 mb-4">Découvrez les technologies et approches qui façonnent l'avenir des applications web.</p>
+                    <button class="read-article-btn text-uhc-primary font-semibold hover:underline" data-article-id="article1">Lire l'article &rarr;</button>
+                </div>
+                <div class="bg-uhc-card border border-uhc-neutral rounded-xl shadow-lg p-6 text-left transform hover:scale-105 transition duration-300 ease-in-out">
+                    <h3 class="text-2xl font-semibold text-uhc-primary mb-2">Pourquoi une application mobile personnalisée est essentielle pour votre business</h3>
+                    <p class="text-md text-e0e0e0 mb-4">Comprenez les avantages d'une présence mobile sur mesure pour vos clients.</p>
+                    <button class="read-article-btn text-uhc-primary font-semibold hover:underline" data-article-id="article2">Lire l'article &rarr;</button>
+                </div>
             </div>
-            <div class="footer-bottom">
-                <p>&copy; 2024 Éclat & Cime. Tous droits réservés.</p>
-                <p>123 Rue du Style, 75001 Paris | contact@eclat-cime.fr</p>
+            <button class="btn-secondary mt-10">Voir tous les Articles</button>
+        </div>
+    </section>
+
+
+    <!-- Footer -->
+    <footer class="bg-uhc-card text-e0e0e0 py-10 border-t border-uhc-neutral">
+        <div class="container mx-auto px-4 text-center">
+            <div class="flex flex-col md:flex-row justify-between items-center mb-6">
+                <div class="mb-4 md:mb-0">
+                    <h3 class="text-xl font-bold mb-2">Connectia Solutions</h3>
+                    <p class="text-sm">&copy; 2024 Tous droits réservés.</p>
+                </div>
+                <div class="flex flex-wrap justify-center md:justify-start space-x-4 md:space-x-6">
+                    <a href="#" class="text-e0e0e0 hover:text-uhc-accent transition duration-200">Politique de Confidentialité</a>
+                    <a href="#" class="text-e0e0e0 hover:text-uhc-accent transition duration-200">Conditions Générales</a>
+                    <a href="#" class="text-e0e0e0 hover:text-uhc-accent transition duration-200">Mentions Légales</a>
+                </div>
+            </div>
+            <div class="text-sm mt-4">
+                Suivez-nous :
+                <a href="https://github.com/Fitzche" target="_blank" rel="noopener noreferrer" class="text-e0e0e0 hover:text-uhc-accent ml-2 transition duration-200">GitHub</a> |
+		<a href="https://www.youtube.com/@uhcworld" target="_blank" rel="noopener noreferrer" class="text-e0e0e0 hover:text-uhc-accent ml-2 transition duration-200">Youtube</a> |
+                <a href="#" class="text-e0e0e0 hover:text-uhc-accent ml-2 transition duration-200">LinkedIn</a>
             </div>
         </div>
     </footer>
 
-    <!-- Script pour le smooth scroll (optionnel mais recommandé) -->
+    <!-- Blog Article Modal Overlay -->
+    <div id="article-modal-overlay" class="modal-overlay">
+        <div id="article-modal-content" class="modal-content">
+            <button class="close-modal-btn" id="close-article-modal-btn">&times;</button>
+            <h2 id="article-modal-title" class="text-3xl font-bold text-uhc-primary mb-4"></h2>
+            <p id="article-modal-date" class="text-sm text-uhc-neutral mb-6"></p>
+            <div id="article-modal-text" class="prose max-w-none text-e0e0e0 leading-relaxed">
+                <!-- Article content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Case Study Modal Overlay -->
+    <div id="casestudy-modal-overlay" class="modal-overlay">
+        <div id="casestudy-modal-content" class="modal-content">
+            <button class="close-modal-btn" id="close-casestudy-modal-btn">&times;</button>
+            <h2 id="casestudy-modal-title" class="text-3xl font-bold text-uhc-primary mb-4"></h2>
+            <p id="casestudy-modal-date" class="text-sm text-uhc-neutral mb-6"></p>
+            <div id="casestudy-modal-text" class="prose max-w-none text-e0e0e0 leading-relaxed">
+                <!-- Case study content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
     <script>
+        // Smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -394,9 +383,239 @@
                 document.querySelector(this.getAttribute('href')).scrollIntoView({
                     behavior: 'smooth'
                 });
+
+                // Close mobile menu after clicking a link
+                const mobileMenu = document.getElementById('mobile-menu');
+                if (!mobileMenu.classList.contains('hidden')) {
+                    mobileMenu.classList.add('hidden');
+                }
             });
         });
-    </script>
 
+        // Mobile menu toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Intersection Observer for fade-in effect
+        const fadeIns = document.querySelectorAll('.fade-in');
+
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('appear');
+                    observer.unobserve(entry.target); // Stop observing once it's visible
+                }
+            });
+        }, observerOptions);
+
+        fadeIns.forEach(fadeElement => {
+            observer.observe(fadeElement);
+        });
+
+        // Initial check for hero section visibility on load
+        document.addEventListener('DOMContentLoaded', () => {
+            const heroSection = document.querySelector('.hero-section .fade-in');
+            if (heroSection) {
+                // Ensure hero section content appears immediately
+                heroSection.classList.add('appear');
+            }
+        });
+
+        // Blog Article Modal Functionality
+        const articleModalOverlay = document.getElementById('article-modal-overlay');
+        const articleModalTitle = document.getElementById('article-modal-title');
+        const articleModalDate = document.getElementById('article-modal-date');
+        const articleModalText = document.getElementById('article-modal-text');
+        const closeArticleModalBtn = document.getElementById('close-article-modal-btn');
+        const readArticleBtns = document.querySelectorAll('.read-article-btn');
+
+        const articles = {
+            article1: {
+                title: "Les 5 tendances clés du développement web en 2024",
+                date: "23 juin 2024",
+                content: `
+                    <p>Le monde du développement web est en constante évolution, et 2024 ne fait pas exception. Voici les cinq tendances majeures qui façonnent l'avenir des applications web et que chaque développeur devrait connaître :</p>
+                    <h3 class="text-2xl font-semibold text-uhc-primary mt-6 mb-3">1. L'essor du Web3 et de la Blockchain</h3>
+                    <p>Au-delà des cryptomonnaies, la blockchain offre de nouvelles possibilités pour la décentralisation des applications web. Le Web3, avec ses dApps (applications décentralisées), promet une internet plus transparente et axée sur l'utilisateur. Les développeurs se familiarisent avec les contrats intelligents et les protocoles décentralisés.</p>
+                    <h3 class="text-2xl font-semibold text-uhc-primary mt-6 mb-3">2. L'intelligence Artificielle et le Machine Learning</h3>
+                    <p>L'intégration de l'IA et du ML dans le développement web devient de plus en plus courante. Qu'il s'agisse de chatbots intelligents, de recommandations personnalisées ou d'optimisation de l'expérience utilisateur, l'IA ouvre des portes à des fonctionnalités autrefois impensables.</p>
+                    <h3 class="text-2xl font-semibold text-uhc-primary mt-6 mb-3">3. Les Architectures Microservices et Serverless</h3>
+                    <p>Pour des applications plus scalables et résilientes, les microservices continuent de gagner du terrain. Parallèlement, l'approche serverless simplifie le déploiement et la gestion de l'infrastructure, permettant aux développeurs de se concentrer uniquement sur le code.</p>
+                    <h3 class="text-2xl font-semibold text-uhc-primary mt-6 mb-3">4. La Réalité Augmentée (RA) et la Réalité Virtuelle (RV) dans le Navigateur</h3>
+                    <p>Avec les progrès des API web (comme WebXR), la RA et la RV deviennent accessibles directement via les navigateurs. Cela ouvre des perspectives fascinantes pour des expériences immersives dans le commerce électronique, l'éducation et le divertissement.</p>
+                    <h3 class="text-2xl font-semibold text-uhc-primary mt-6 mb-3">5. La Cybersécurité Renforcée</h3>
+                    <p>Face à la sophistication croissante des cyberattaques, la sécurité ne peut plus être une option. Les développeurs intègrent des pratiques de sécurité "dès la conception" et utilisent des outils avancés pour protéger les données et les applications.</p>
+                    <p class="mt-6">En adoptant ces tendances, les développeurs peuvent créer des expériences web plus puissantes, plus sécurisées et plus innovantes pour l'avenir.</p>
+                `
+            },
+            article2: {
+                title: "Pourquoi une application mobile personnalisée est essentielle pour votre business",
+                date: "15 juin 2024",
+                content: `
+                    <p>Dans le paysage numérique actuel, avoir une application mobile n'est plus un luxe, mais une nécessité pour de nombreuses entreprises. Voici pourquoi une application mobile personnalisée peut être un atout majeur pour votre business :</p>
+                    <h3 class="text-2xl font-semibold text-uhc-primary mt-6 mb-3">1. Engagement Client Amélioré</h3>
+                    <p>Une application mobile offre un canal de communication direct et personnalisé avec vos clients. Les notifications push, les offres exclusives et les interfaces intuitives augmentent l'engagement et la fidélité.</p>
+                    <h3 class="text-2xl font-semibold text-uhc-primary mt-6 mb-3">2. Expérience Utilisateur Optimale</h3>
+                    <p>Contrairement aux sites web mobiles, les applications sont conçues pour des performances optimales sur les appareils mobiles. Elles offrent une vitesse accrue, une navigation fluide et des fonctionnalités spécifiques au mobile (comme l'accès à la caméra, au GPS, etc.).</p>
+                    <h3 class="text-2xl font-semibold text-uhc-primary mt-6 mb-3">3. Image de Marque Renforcée</h3>
+                    <p>Posséder une application mobile professionnelle renforce la crédibilité et la modernité de votre marque. Cela montre que vous investissez dans des solutions technologiques pour mieux servir vos clients.</p>
+                    <h3 class="text-2xl font-semibold text-uhc-primary mt-6 mb-3">4. Accès à de Nouvelles Données et Analyses</h3>
+                    <p>Les applications mobiles peuvent collecter des données précieuses sur le comportement des utilisateurs, vous permettant de mieux comprendre leurs préférences et d'adapter vos stratégies marketing et produit.</p>
+                    <h3 class="text-2xl font-semibold text-uhc-primary mt-6 mb-3">5. Avantage Concurrentiel</h3>
+                    <p>Dans certains secteurs, avoir une application mobile peut vous donner un avantage distinct sur vos concurrents qui n'offrent pas une telle commodité à leurs clients.</p>
+                    <p class="mt-6">Investir dans une application mobile personnalisée, c'est investir dans l'avenir de votre entreprise et dans une relation plus solide avec votre clientèle.</p>
+                `
+            }
+        };
+
+        readArticleBtns.forEach(button => {
+            button.addEventListener('click', () => {
+                const articleId = button.dataset.articleId;
+                const article = articles[articleId];
+
+                if (article) {
+                    articleModalTitle.textContent = article.title;
+                    articleModalDate.textContent = `Publié le ${article.date}`;
+                    articleModalText.innerHTML = article.content;
+                    articleModalOverlay.classList.add('show');
+                }
+            });
+        });
+
+        closeArticleModalBtn.addEventListener('click', () => {
+            articleModalOverlay.classList.remove('show');
+        });
+
+        articleModalOverlay.addEventListener('click', (e) => {
+            if (e.target === articleModalOverlay) {
+                articleModalOverlay.classList.remove('show');
+            }
+        });
+
+        // Case Study Modal Functionality
+        const casestudyModalOverlay = document.getElementById('casestudy-modal-overlay');
+        const casestudyModalTitle = document.getElementById('casestudy-modal-title');
+        const casestudyModalDate = document.getElementById('casestudy-modal-date');
+        const casestudyModalText = document.getElementById('casestudy-modal-text');
+        const closeCasestudyModalBtn = document.getElementById('close-casestudy-modal-btn');
+        const viewCasestudyBtns = document.querySelectorAll('.view-casestudy-btn');
+
+        const caseStudies = {
+            casestudy1: {
+                title: "Plateforme E-commerce B2B",
+                date: "20 mai 2024",
+                content: `
+                    <p><strong>Contexte du Client :</strong> Un grand distributeur industriel cherchait à moderniser ses canaux de vente B2B et à offrir une expérience d'achat en ligne plus fluide à ses clients professionnels.</p>
+                    <h3 class="text-2xl font-semibold text-uhc-primary mt-6 mb-3">Le Défi</h3>
+                    <p>Le défi principal était de créer une plateforme capable de gérer des catalogues de produits complexes (nombreuses références, variations, tarifs personnalisés), des commandes en gros, des intégrations avec des systèmes ERP existants, et un portail client sécurisé.</p>
+                    <h3 class="text-2xl font-semibold text-uhc-primary mt-6 mb-3">Notre Solution</h3>
+                    <p>Nous avons développé une plateforme e-commerce B2B sur mesure, dotée de fonctionnalités avancées :</p>
+                    <ul>
+                        <li>Gestion de multiples catalogues et listes de prix par client.</li>
+                        <li>Système de devis et de commandes groupées.</li>
+                        <li>Intégration API avec le système de gestion des stocks et de facturation du client.</li>
+                        <li>Tableau de bord client pour le suivi des commandes, l'historique d'achat et la gestion des comptes utilisateurs.</li>
+                        <li>Interface utilisateur intuitive et optimisée pour les commandes récurrentes.</li>
+                    </ul>
+                    <h3 class="text-2xl font-semibold text-uhc-primary mt-6 mb-3">Technologies Utilisées</h3>
+                    <p>Node.js, React, PostgreSQL, Docker, AWS (pour l'hébergement et la scalabilité).</p>
+                    <h3 class="text-2xl font-semibold text-uhc-primary mt-6 mb-3">Résultats</h3>
+                    <p>La nouvelle plateforme a permis au client de digitaliser entièrement son processus de vente B2B, réduisant les erreurs de commande de 30% et augmentant le volume de ventes en ligne de 25% au cours des six premiers mois. L'expérience client a été grandement améliorée, renforçant la satisfaction et la fidélité.</p>
+                `
+            },
+            casestudy2: {
+                title: "Application Mobile RH Innovante",
+                date: "10 avril 2024",
+                content: `
+                    <p><strong>Contexte du Client :</strong> Une grande entreprise avec plusieurs milliers d'employés cherchait à améliorer la communication interne, simplifier la gestion des congés et des fiches de paie, et offrir un accès rapide aux informations RH via un outil mobile.</p>
+                    <h3 class="text-2xl font-semibold text-uhc-primary mt-6 mb-3">Le Défi</h3>
+                    <p>Le défi consistait à développer une application mobile sécurisée et conviviale, capable de s'intégrer aux systèmes RH existants de l'entreprise, tout en respectant les normes strictes de confidentialité des données.</p>
+                    <h3 class="text-2xl font-semibold text-uhc-primary mt-6 mb-3">Notre Solution</h3>
+                    <p>Nous avons développé une application mobile native (iOS et Android) offrant les fonctionnalités suivantes :</p>
+                    <ul>
+                        <li>Consultation sécurisée des fiches de paie et documents RH.</li>
+                        <li>Demandes et suivi des congés et absences.</li>
+                        <li>Annuaire des employés avec recherche rapide.</li>
+                        <li>Système de notification pour les annonces importantes de l'entreprise.</li>
+                        <li>Intégration avec le calendrier professionnel pour la gestion des réunions.</li>
+                    </ul>
+                    <h3 class="text-2xl font-semibold text-uhc-primary mt-6 mb-3">Technologies Utilisées</h3>
+                    <p>Swift (iOS), Kotlin (Android), Spring Boot (Backend API), OAuth2 pour l'authentification.</p>
+                    <h3 class="text-2xl font-semibold text-uhc-primary mt-6 mb-3">Résultats</h3>
+                    <p>L'application a été adoptée par 90% des employés, réduisant significativement le temps consacré aux requêtes RH et améliorant la satisfaction des employés grâce à un accès facilité aux informations. Le retour sur investissement a été rapide grâce à l'automatisation de nombreuses tâches administratives.</p>
+                `
+            },
+            casestudy3: { // New case study for Loup Garou UHC Plugin
+                title: "Développement d'un Plugin Minecraft UHC Loup-Garou",
+                date: "23 juin 2024",
+                content: `
+                    <p><strong>Contexte du Client :</strong> Un créateur de contenu et animateur de communauté de jeux vidéo cherchait à offrir une expérience de jeu unique et renouvelée à ses abonnés sur Minecraft, en combinant le célèbre mode "Loup-Garou" avec les défis du mode "Ultra Hardcore" (UHC).</p>
+                    <h3 class="text-2xl font-semibold text-uhc-primary mt-6 mb-3">Le Défi</h3>
+                    <p>Le principal défi était de concevoir et de développer un plugin Minecraft sur mesure, capable d'orchestrer les mécaniques complexes des deux modes de jeu de manière fluide et intuitive. Cela incluait la gestion aléatoire des rôles (villageois, loups-garous, rôles spéciaux), les cycles jour/nuit avec phases de votes et de chasse, et l'intégration des règles UHC (pas de régénération naturelle, rétrécissement de la carte).</p>
+                    <h3 class="text-2xl font-semibold text-uhc-primary mt-6 mb-3">Notre Solution</h3>
+                    <p>Nous avons développé un plugin Minecraft robuste et performant en Java, compatible avec les plateformes de serveurs Bukkit/Spigot/PaperMC. La solution intègre :</p>
+                    <ul>
+                        <li><strong>Attribution et Gestion des Rôles :</strong> Un système intelligent pour distribuer les rôles et afficher les informations essentielles aux joueurs.</li>
+                        <li><strong>Phases de Jeu Dynamiques :</strong> Implémentation des phases jour/nuit, des périodes de discussion, de vote pour les loups-garous et des phases d'action nocturne.</li>
+                        <li><strong>Mécaniques UHC :</strong> Désactivation de la régénération de santé naturelle, gestion des bordures de monde qui se réduisent progressivement, et intégration des mécanismes de mort permanente.</li>
+                        <li><strong>Personnalisation Complète :</strong> Un fichier de configuration détaillé permettant aux administrateurs de serveurs de définir un grand nombre de paramètres : nombre de joueurs, probabilité des rôles, durées des cycles, messages personnalisés, etc.</li>
+                        <li><strong>Optimisation des Performances :</strong> Code optimisé pour garantir une expérience de jeu sans lag, même avec un grand nombre de participants.</li>
+                    </ul>
+                    <h3 class="text-2xl font-semibold text-uhc-primary mt-6 mb-3">Technologies Utilisées</h3>
+                    <p>Java, Bukkit/Spigot/PaperMC API, YAML pour la configuration.</p>
+                    <h3 class="text-2xl font-semibold text-uhc-primary mt-6 mb-3">Résultats</h3>
+                    <p>Le plugin a été un succès retentissant pour la communauté du client, permettant d'organiser des événements de jeu immersifs et très populaires. Cela a considérablement augmenté l'engagement des viewers et des participants, renforçant la notoriété du créateur de contenu et prouvant notre capacité à développer des solutions de jeu complexes et divertissantes.
+<br>
+<br>
+<br>
+<br>
+<br>
+PS: Le plugin existe vraiment avec plus de 200h de code pour environ 18 000 lignes de codes:
++ de 50 roles
++ divers events et scénarios
++ menus de configuration complexes
++ modes de jeux alternatifs comme team swapper uhc ou capture the flag
++ mode de jeu à l'image du nakime party d'uhc world avec l'univers de star war
+
+
+</p>
+                `
+            }
+        };
+
+        viewCasestudyBtns.forEach(button => {
+            button.addEventListener('click', () => {
+                const casestudyId = button.dataset.casestudyId;
+                const casestudy = caseStudies[casestudyId];
+
+                if (casestudy) {
+                    casestudyModalTitle.textContent = casestudy.title;
+                    casestudyModalDate.textContent = `Publié le ${casestudy.date}`;
+                    casestudyModalText.innerHTML = casestudy.content;
+                    casestudyModalOverlay.classList.add('show');
+                }
+            });
+        });
+
+        closeCasestudyModalBtn.addEventListener('click', () => {
+            casestudyModalOverlay.classList.remove('show');
+        });
+
+        casestudyModalOverlay.addEventListener('click', (e) => {
+            if (e.target === casestudyModalOverlay) {
+                casestudyModalOverlay.classList.remove('show');
+            }
+        });
+    </script>
 </body>
 </html>

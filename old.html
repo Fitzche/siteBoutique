@@ -1,0 +1,1795 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+
+<link type="text/css" rel="stylesheet" href="css/chess.css" />
+<link type="text/css" rel="stylesheet" href="skins/gnomechess.css" />
+<style>
+
+/* Existing CSS ... */
+
+
+
+
+.computeropponent-hr {
+	wifunction fixBlackPawnSizes() {
+  if (!isMobileViewport()) return;
+
+  document.querySelectorAll('#flatChessboard td span').forEach(function (el) {
+    const text = el.textContent.normalize("NFKD");
+    if (text.includes('♟')) {
+      el.classList.add('black-pawn-fix');
+    }
+  });
+}
+
+// Optional: Remove the fix after first move
+function removeBlackPawnFix() {
+  document.querySelectorAll('.black-pawn-fix').forEach(el => {
+    el.classList.remove('black-pawn-fix');
+  });
+}
+th: 30%;
+	margin-top: 32px;
+	margin-bottom: 24px;
+}
+
+img.tbBtn {
+	cursor: pointer;
+	margin: 1px 2px 1px 2px;
+}
+
+#pgnTable {
+	width: auto;
+	height: auto;
+	margin-left: auto;
+	margin-right: auto;
+    margin-top:0px;
+	border-collapse: collapse;
+	border: 0;
+}
+
+#pgnTable tr td { padding: 2px; }
+
+#chessDesk {
+	clear: both;
+	width: auto;
+	height: auto;
+	margin-top: 0px;
+	margin-bottom: 32px;
+}
+
+#chessToolBar {
+	width: 550px;
+	height: auto;
+	margin: 12px auto;
+	background-color: #969696;
+	-moz-box-shadow: inset 0 25px 27px -10px #BDBDBD;
+	-webkit-box-shadow: inset 0 25px 27px -10px #BDBDBD;
+	box-shadow: inset 0 25px 27px -10px #BDBDBD;
+	border-bottom: 1px solid #424242;
+	text-align:center;
+	padding: 6px 3px 2px 3px;
+}
+
+#setViewBtns {
+	width: auto;
+	float: left;
+}
+
+#setViewBtns span {
+	margin: 0 3px;
+	display: inline-block;
+	font: 12px / 13px "Lucida Grande", sans-serif;
+	text-shadow: rgba(255, 255, 255, 0.4) 0 1px;
+	padding: 3px 6px;
+	border: 1px solid rgba(0, 0, 0, 0.6);
+	background-color: #969696;
+	cursor: default;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	-moz-box-shadow: rgba(255, 255, 255, 0.4) 0 1px, inset 0 20px 20px -10px white;
+	-webkit-box-shadow: rgba(255, 255, 255, 0.4) 0 1px, inset 0 20px 20px -10px white;
+	box-shadow: rgba(255, 255, 255, 0.4) 0 1px, inset 0 20px 20px -10px white;
+}
+#setViewBtns span.pressedBtn {
+	background: #B5B5B5;
+	-moz-box-shadow: inset rgba(0, 0, 0, 0.4) 0 -5px 12px, inset rgba(0, 0, 0, 1) 0 1px 3px, rgba(255, 255, 255, 0.4) 0 1px;
+	-webkit-box-shadow: inset rgba(0, 0, 0, 0.4) 0 -5px 12px, inset rgba(0, 0, 0, 1) 0 1px 3px, rgba(255, 255, 255, 0.4) 0 1px;
+	box-shadow: inset rgba(0, 0, 0, 0.4) 0 -5px 12px, inset rgba(0, 0, 0, 1) 0 1px 3px, rgba(255, 255, 255, 0.4) 0 1px;
+}
+
+.chess-layout {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: flex-start;
+  align-items: flex-start;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.chess-board-area {
+  flex: 0 1 auto;
+}
+
+.chess-controls-area {
+  flex: 0 1 260px;
+  margin-left: 16px;
+}
+
+
+
+#flatChessboard td {
+  width: 3.5rem;
+  height: 3.5rem;
+  padding: 0;
+  text-align: center;
+  vertical-align: middle;
+  box-sizing: border-box;
+}
+
+
+/* Base styling for all Unicode pieces */
+
+#flatChessboard td span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  font-size: 3.5rem;
+  font-family: "Arial Unicode MS", "Segoe UI Symbol", "Noto Sans Symbols", "Symbola", sans-serif;
+  line-height: 1;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+
+
+
+#flatChessboard th.horizCoords,
+#flatChessboard th.vertCoords,
+#flatChessboard td.boardAngle {
+  width: 1.5rem !important;
+  height: 1.5rem !important;
+  min-width: 1.5rem !important;
+  min-height:1.5rem !important;
+  max-width: 1.5rem !important;
+  max-height: 1.5rem !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+  font-size: 1rem !important;
+  text-align: center;
+  vertical-align: middle;
+}
+
+
+
+
+
+/* Mobile override — this will now always apply */
+@media (max-width: 600px) {
+  #flatChessboard td span {
+    font-size: 3.5rem; 
+  }
+}
+
+
+@media screen and (max-width: 1024px) {
+  .chess-layout {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+  }
+
+  .chess-board-area,
+  .chess-controls-area {
+    flex: none !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
+
+
+/* ✅ Override gnomechess.css styles AFTER everything else */
+#flatChessboard tr td.blackSquares,
+#flatChessboard tr td.whiteSquares {
+  width: 3.5rem !important;
+  height: 3.5rem !important;
+  font-size: 3.5rem !important;
+  line-height: 1 !important;
+  font-family: "Arial Unicode MS", "Segoe UI Symbol", "Noto Sans Symbols", "Symbola", sans-serif !important;
+}
+
+
+#chessboardsBox {
+  border: none !important;
+}
+
+#chessSizeHandle {
+  display: none !important;
+}
+
+
+fieldset {
+  max-width: 260px;
+  margin: 0 auto 1rem auto;
+  border: 1px solid #ccc;
+  padding: 0.5rem 1rem;
+  border-radius: 0.3rem;
+}
+
+fieldset legend {
+  padding: 0 0.5rem;
+  font-size: 0.95rem;
+}
+
+@media (max-width: 600px) {
+  fieldset {
+    max-width: 90%;
+    padding: 0.5rem;
+    margin: 0 auto 1rem auto;
+  }
+
+  fieldset legend {
+    font-size: 0.9rem;
+     text-align: center;
+  }
+}
+
+
+
+
+
+input.chessworldmedium {
+  background-color: #28a745 !important;
+  color: #ffffff !important;
+  font-size: 1.1rem !important;
+  font-weight: 600 !important;
+  line-height: 1.2 !important;
+  border: none !important;
+  border-radius: 0.5rem !important;
+
+  width: 15rem !important;
+  text-align: center !important;
+  vertical-align: middle !important;
+  display: inline-block !important;
+  box-shadow: 0 0.125rem 0.375rem rgba(0, 0, 0, 0.1);
+  transition: background-color 0.2s ease-in-out;
+}
+
+
+input.chessworldmedium:hover {
+  background-color: #218838 !important;
+}
+
+@media (max-width: 768px) {
+  input.chessworldmedium {
+    margin: 0.5rem auto !important;
+    display: block;
+
+
+   width: 95vw;
+   height: 3rem;
+
+
+  }
+
+  .board-controls {
+    margin-top: 1.5rem;
+  }
+}
+
+
+
+
+
+
+
+</style>
+
+
+
+
+
+<head>
+
+  <title>Play Online Chess Against the Computer | ChessWorld</title>
+  <meta name="description" content="Play free online chess against a beginner-friendly computer. Train, improve, and enjoy chess online at ChessWorld – no signup needed." />
+  <meta name="keywords" content="online chess, play chess online, chess computer opponent, free chess game, chess practice, chess AI, beginner chess engine, ChessWorld.net AI" />
+  <meta name="author" content="ChessWorld.net" />
+  <link rel="canonical" href="https://www.chessworld.net/chessclubs/htmlchess/computeropponent.asp" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Play Online Chess Against the Computer" />
+  <meta property="og:description" content="Enjoy a free and beginner-friendly online chess experience. Practice against our computer AI and improve your game." />
+  <meta property="og:image" content="https://www.chessworld.net/gif/frontpage/chesslogo3-2-small3@2x.png" />
+  <meta property="og:url" content="https://www.chessworld.net/chessclubs/htmlchess/computeropponent.asp" />
+  <meta property="og:type" content="website" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Play Online Chess Against the Computer" />
+  <meta name="twitter:description" content="Challenge our free beginner-level AI. Practice online chess without registration at ChessWorld." />
+  <meta name="twitter:image" content="https://www.chessworld.net/gif/frontpage/chesslogo3-2-small3@2x.png" />
+
+  <!-- Favicon -->
+  <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+
+  <!-- FAQ Rich Snippet Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Can I play online chess for free?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes! You can play free online chess against our computer opponent with no registration required. Ideal for beginners."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is the ChessWorld computer good for beginners?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, the ChessWorld computer is designed to be beginner-friendly and is perfect for casual play or learning chess tactics."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <style>
+.myButton {
+  display: inline-block;
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 1rem;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.myButton:hover {
+  background-color: #3e8e41;
+}
+
+</style>
+
+
+<div style='text-align:center;'><img width=60vw height=20vw src='/gif/frontpage/chesslogo3-2-small3@2x.png' alt='ChessWorld.net Logo'>Chessworld.net founded in 2000 is an online chess site.<br>If you would like to <span style='font-weight: bold;'>play relaxed, friendly online chess</span>, then...<br><input type='button' class='myButton' style='background-color: #005a00; color: #ffffff;' onclick="window.open('https://www.chessworld.net/chessclubs/register_asplogin.asp?from=773590', '_self', '')" value='Register here'> or <input type='button' class='myButton' style='background-color: #005a00; color: #ffffff;' onclick="window.open('https://www.chessworld.net/chessclubs/asplogin.asp?from=773590', '_self', '')" value='Login here'></div><br>
+
+<script>
+
+
+
+
+function getCommentToShare(defaultComment) {
+    var h1Element = document.querySelector('h1');
+    return h1Element ? h1Element.textContent : defaultComment;
+}
+
+
+function shareOnFB() {
+    var defaultComment = 'Interesting Chess Topics for strategy, tactics and other stuff %23chess'; // Server-side default comment
+    var commentToShare = getCommentToShare(defaultComment); // Get comment from <h1> or default
+    var currentPageUrl = encodeURIComponent(window.location.href);
+    var url = "https://www.facebook.com/sharer/sharer.php?u=" + currentPageUrl + "&t=" + encodeURIComponent(commentToShare);
+    window.open(url, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600');
+    return false;
+}
+
+function shareOntwitter() {
+    var defaultComment = 'Interesting Chess Topics for strategy, tactics and other stuff %23chess'; // Server-side default comment
+    var commentToShare = getCommentToShare(defaultComment); // Get comment from <h1> or default
+    var currentPageUrl = encodeURIComponent(window.location.href);
+    var url = "https://twitter.com/share?url=" + currentPageUrl + "&text=" + encodeURIComponent(commentToShare);
+    var TwitterWindow = window.open(url, 'TwitterWindow', 'width=600,height=300');
+    return false;
+}
+
+
+
+</script>
+
+ 
+<style>
+#sharers ul {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-gap: 10px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border: 0px solid black;
+  border-radius: 10px;
+}
+
+#sharers li {
+  padding: 10px;
+  background-color: #f2f2f2;
+  border-radius: 5px;
+  text-align: center;
+}
+
+#sharers a {
+  text-decoration: none;
+  color: #333;
+  font-size: 1rem;
+  font-family: "Helvetica Neue", sans-serif;
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+}
+
+
+</style>
+
+
+
+
+</head>
+
+
+
+<script type="text/ecmascript" src="common/xhr.js"></script>
+<script type="text/ecmascript" src="chess2.js"></script>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<style>
+
+    .rowheadingstyle
+    {
+        text-align:left;
+        color:grey;
+        font-weight:bold;
+        vertical-align:top;
+    }
+
+
+    .candidatestable tr:not(.no-hover):hover td {background:#}
+
+    .candidatestable th {
+        text-align: left;
+        font-size: small;
+        font-weight:bold;
+        padding: 10px;
+        height: 20px;
+        background-color:#800000;
+        color:#FFFFFF;
+    }
+
+
+
+    .winbox
+{
+width:35px;
+height:20px;
+
+padding-left:5px;
+padding-right:5px;
+
+padding-top:3px;
+padding-bottom:3px;
+
+background:#00f800;
+color:#0000ff;
+font-size:9pt;
+font-family:Verdana;
+float:left;
+text-align:center;
+}
+
+
+.drawbox
+{
+width:35px;
+height:20px;
+
+padding-left:5px;
+padding-right:5px;
+
+padding-top:3px;
+padding-bottom:3px;
+
+
+background:#f8f800;
+color:#0000ff;
+font-size:9pt;
+font-family:Verdana;
+float:left;
+text-align:center;
+}
+
+
+.losebox
+{
+width:35px;
+height:20px;
+
+padding-left:5px;
+padding-right:5px;
+
+padding-top:3px;
+padding-bottom:3px;
+
+
+background:#f80000;
+color:#f8f800;
+font-size:9pt;
+font-family:Verdana;
+float:left;
+text-align:center;
+}
+
+
+.nullbox
+{
+width:150px;
+height:20px;
+
+padding-left:5px;
+padding-right:5px;
+
+padding-top:3px;
+padding-bottom:3px;
+
+
+background:#e3e3e3;
+color:#000;
+font-size:9pt;
+font-family:Verdana;
+float:left;
+text-align:center;
+}
+
+
+div.clear { clear:both; }
+
+
+
+    .theadstyle {
+        background-color: #800000; 
+        color: #FFFFFF;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        font-weight:bold;
+    }
+
+        .theadstyleclickable {
+        background-color: #800000; 
+        color: #FFFFFF;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        font-weight:bold;
+        cursor: pointer;
+    }
+
+
+
+         table.sortable th {text-align:left;font-size:x-small;}
+
+         table.sortable th:not(.sorttable_sorted):not(.sorttable_sorted_reverse):not(.sorttable_nosort):after { 
+            content: " \25b2\25bc" 
+        }
+
+            table.sortable th:after {
+                display: block;
+                white-space: pre;
+            }
+
+</style>
+
+
+
+
+
+<script type="text/javascript" src="/chessclubs/js/jquery-3.7.1.min.js"></script>
+
+
+
+
+ <script language="javascript" type="text/javascript">
+
+       $(function(){
+       
+                    $(".gamelisttable tr:nth-child(even)").css("background", "#FFEEDF");
+                    $(".gamelisttable tr:nth-child(odd)").css("background", "#FFF5EC");
+                
+
+
+
+
+
+     	});
+
+</script>
+
+
+  <style type="text/css">
+
+ 
+     
+
+
+
+
+      
+
+
+
+
+
+      .tdchessworld {
+          background-color: #800000;
+          color: #FFFFFF;
+      }
+
+      .ButtonPressedStyle {
+          border: solid 1px black;
+          background: #;
+          color:black;
+      }
+
+
+      .box {
+  border:1px solid grey;
+  border-radius: 5px;
+  text-align:center;
+  float: left;
+  width: 70px;
+  height: 15px;
+  margin-right: 1em;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  padding:2px;
+  background-color:#;
+  color:#;
+
+}
+.after-box {
+  clear: left;
+}
+
+
+
+	.alert-box {
+		color:#555;
+		border-radius:10px;
+		font-family:Tahoma,Geneva,Arial,sans-serif;font-size:15px;
+		padding:10px 36px;
+		margin:10px;
+	}
+	.alert-box span {
+		font-weight:bold;
+		text-transform:uppercase;
+	}
+	.error {
+		 background: # url('/gif/error.png') no-repeat 10px 50%;
+		 border: 1px solid #;
+          color: #;
+	}
+	.success {
+	 background: # url('/gif/friendlytick.gif') no-repeat 10px 50%;
+		 border: 1px solid #;
+           color: #;
+
+	}
+	.warning {
+		 background: # url('/gif/warning.png') no-repeat 10px 50%;
+		 border: 1px solid #;
+          color: #;
+	}
+	.notice {
+		 background: # url('/gif/notice.png') no-repeat 10px 50%;
+            border: 1px solid #;
+		border:1px solid #8ed9f6;
+           color: #;
+	}
+     .info {
+          background: # url('/gif/info5.png') no-repeat 10px 50%;
+          border: 1px solid #;
+          background-size: 20px;
+          color: #;
+      }
+
+     .neutral {
+         border:1px solid black;  
+         border-radius:15px; 
+         padding:5px;
+         border:1px solid grey;
+     }
+
+    </style>
+
+
+
+
+
+
+<style type='text/css'>
+
+.sidebarheading
+{
+    color: #000;
+    font-size: 12px;
+    margin: 0 0 0.5em;
+    padding: 0;
+}
+
+
+
+.normaltext
+{
+    font-weight: normal;
+}
+
+.boldtext
+{
+    font-weight: bold;
+}
+
+
+
+
+
+.whitelinks a:link {
+  color: #;  
+  text-decoration: underline;
+}
+
+.whitelinks a:visited  {
+  color: #;  
+  text-decoration: underline;
+}
+
+.whitelinks a:hover  {
+  color: #;  
+  text-decoration: underline;
+}
+
+.whitelinks a:active   {
+  color: #;  
+  text-decoration: underline;
+}
+
+
+
+.footer a:link {
+  color: #000000;
+}
+
+.footer a:visited  {
+  color: #000000;
+}
+
+.footer a:hover  {
+  color: #000000;
+}
+
+.footer a:active   {
+  color: #000000;
+}
+
+
+
+.footer
+{ 
+    font-family: Verdana, Arial, "Helvetica";
+    color: #000;
+    font-size:0.85em;
+    text-align:center;
+    font-weight: normal;
+    padding-bottom: 10px;  
+    
+    }
+
+
+    
+    body 
+    {
+
+    
+            
+                text-align: center; /* for IE */
+            
+
+
+
+   
+   
+    
+    color:#;        
+  
+
+
+
+
+
+
+    font-family: Verdana, Arial, Helvetica;
+    font-size : 9pt;
+    
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-top: 0px;
+    }
+    
+  
+
+    
+
+
+
+
+h3
+{
+    font-size: 10pt;
+      color: #;  
+}
+
+
+h2
+{
+    background-color:#;
+      color: #;  
+      font-size: 12pt;
+}
+
+.h2styled
+{
+  background-color:#; 
+  color:#;  
+}
+
+
+h1
+{    
+
+    
+    margin-top: 5px;
+    
+
+
+    font-family:arial, verdana, geneva, lucida, 'lucida grande', helvetica, sans-serif; 
+    
+    
+        font-size: 1.5em;
+    
+    
+    font-weight: bold; 
+    text-align: center;
+    
+   
+	      color: #;  
+       
+        height: 56px;
+
+        background-attachment: scroll;
+           
+             background-image:
+             url('/gif/rowofflags6.jpg');
+
+             
+             background-position:center 30px; 
+             
+          
+             background-repeat:no-repeat;
+       
+     
+       
+
+     
+      
+
+
+
+    
+    text-transform :capitalize;
+       
+}      
+   
+
+
+.h1higherup
+{    
+  
+   margin-top: 30px;
+  
+   
+    font-family:arial, verdana, geneva, lucida, 'lucida grande', helvetica, sans-serif; 
+    
+    
+        font-size: 1.5em;
+    
+    
+    font-weight: bold; 
+    text-align: center;
+    
+        
+    
+       /*  background-color:#; 
+       color:#; */
+        
+        
+        height: 25px;
+
+        background-attachment: scroll;
+       background-image:url('/gif/rowofflags6.jpg');
+       background-repeat:no-repeat;
+       
+       background-position: center 30px;
+       
+
+
+
+    
+    text-transform :capitalize;
+       
+}      
+
+/* Adjustments for smaller screens */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 1.2em; /* Smaller text for smaller screens */
+        height: auto; /* Allow the height to adjust based on content */
+        background-image: none; /* Removes the background image */
+        background-size: cover; /* Cover ensures the image covers the available space without being cut off */
+        padding-top: 10px; /* Add padding to give some space above the text */
+        padding-bottom: 10px; /* Add padding below the text */
+    }
+}
+
+/* Further adjustments for very small screens */
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1em; /* Even smaller text for very small screens */
+        background-image: none; /* Removes the background image */
+    }
+}
+
+
+/*  */
+
+
+    
+
+
+
+/*       */
+
+
+
+
+
+    #containervirtualpageleaf
+    {
+        
+        width: 980px;
+        max-width:100vw;
+        
+        margin: 0px auto;   /* align for good browsers */
+        min-height: 700px;
+        position:relative; top:-14px;  
+        text-align: left; /* counter the body center */
+        background-color: #;
+        border-spacing: 0;
+        border-radius: 12px;
+        padding: 10px; 
+        border: 1px solid #CCCCCC;
+        -moz-border-radius: 12px;
+        -moz-box-shadow: #6a3d37 5px 5px 6px;
+        -webkit-border-radius: 12px;
+        -webkit-box-shadow: #6a3d37 5px 5px 6px;
+        border-radius: 12px;
+        box-shadow: #6a3d37 5px 5px 6px;
+    }
+
+
+
+
+
+.tablefancy.chessworldrow tr:hover th[scope=row], .tablefancy.chessworldrow tr:hover td
+{ 
+  /* background-color: #;  */
+  
+   background-color: #;
+  
+  color: #;
+} 
+
+
+
+.headertablesmall
+{
+margin:0px;
+padding: 4px;
+width: 75%;
+text-align:center;
+}
+
+.headertablemedium
+{
+
+padding: 4px;
+margin:0px;
+width: 100%;
+text-align:center;
+}
+
+.chessworldcurves
+{
+ border-spacing: 0;
+ border-radius: 12px;
+ -moz-border-radius: 12px;
+ -webkit-border-radius: 12px;
+ border-radius: 12px;    
+}
+
+
+
+.tablefancynoshadow
+{
+background-color: #;
+ border-spacing: 0;
+ border-radius: 12px;
+padding: 10px;
+border: 1px solid #778899;
+}
+
+
+
+.tablefancy
+{
+
+
+
+background-color: #;
+
+ border-spacing: 0;
+ border-radius: 12px;
+padding: 10px;
+border: 1px solid #778899;
+
+
+-moz-border-radius: 12px;
+    -moz-box-shadow: #6a3d37 5px 5px 6px;
+    -webkit-border-radius: 12px;
+    -webkit-box-shadow: #6a3d37 5px 5px 6px;
+    border-radius: 12px;
+    box-shadow: #6a3d37 5px 5px 6px;
+    
+    
+  
+    
+    
+    
+}
+
+
+
+    input.chessworldlarge:hover  
+    {
+       background: #;
+    }
+
+
+
+input.chessworldlarge     {
+        -webkit-appearance: none;	
+        cursor:pointer;
+        border-radius:25px;
+        background-color:#;
+        width:300px;
+        height:50px;
+        font-size:2em;
+        font-family: Arial, Helvetica, sans-serif;
+        border-color:#815D3F;
+        border-width: 0px;
+        color: #;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        }
+        
+        button.chessworldlarge     
+        {
+        -webkit-appearance: none;	
+        cursor:pointer;
+        border-radius:15px;
+        background-color:#;
+        width:300px;
+        height:50px;
+        font-size:2em;
+        font-family: Arial, Helvetica, sans-serif;
+        border-color:#;
+        border-width:0px;
+        color: #;
+
+        }
+
+
+
+input.chessworldmedium:hover  
+{
+    background: #;
+
+}
+
+
+
+
+input.chessworldmedium     {
+                        -webkit-appearance: none;
+                        cursor:pointer;
+   		                margin:1px;
+                        border-radius:15px;
+						background-color:#;
+						width:150px;
+						height:25px;
+				  		font-size: 10pt;
+                        font-family: Arial, Helvetica, sans-serif;
+				  		border-color:#;
+                        border-width:0px;
+				  		color: #;
+						}
+						
+button.chessworldmedium     
+    					{
+     				    -webkit-appearance: none;
+                         cursor:pointer;
+                        margin:1px;
+                        border-radius:15px;
+						background-color:#;
+						width:150px;
+						height:25px;
+				  		font-size:1em;
+                        font-family: Arial, Helvetica, sans-serif;
+			  			border-color:#;
+                        border-width:0px;
+				  		color: #;
+                 		}
+
+
+
+
+input.chessworldmediumlong:hover  
+{
+        background: #;    
+}
+
+
+
+input.chessworldmediumlong     {
+    				    -webkit-appearance: none;
+                        cursor:pointer;
+                        border-radius:15px;
+						background-color:#;
+						width:300px;
+						height:25px;
+				  		font-size:1em;
+                        font-family: Arial, Helvetica, sans-serif;
+				  		border-color:#;
+                        border-width:0px;
+                        color: #;
+						}
+						
+    					button.chessworldmedium     
+    					{
+     				    -webkit-appearance: none;
+                         cursor:pointer;
+                        border-radius:15px;
+						background-color:#;
+						width:300px;
+						height:25px;
+				  		font-size:1em;
+                        font-family: Arial, Helvetica, sans-serif;
+				  	    border-color:#;
+                        border-width:0px;
+				  		color: #;
+						}
+
+
+
+ input.chessworldsmall:hover  
+    {
+        background: #;
+    }
+
+
+
+
+
+input.chessworldsmall     {
+                        -webkit-appearance: none;
+                        cursor:pointer;
+  		                margin:1px;
+                        border-radius:15px;
+						background-color:#;
+						width:75px;
+						height:25px;
+				  		font-size:10pt;
+                        font-family: Arial, Helvetica, sans-serif;
+				  	    border-color:#;
+                        border-width:0px;
+				  		color: #;
+                        margin-bottom: 10px;
+						}
+						
+					
+
+						
+  button.chessworldsmall:hover  
+{
+    background: #;    
+   }
+
+		
+						
+						
+						
+    					button.chessworldsmall    
+    					{
+   	                    -webkit-appearance: none;	            
+                        cursor:pointer;
+                        margin:1px;
+ 				        border-radius:15px;
+						background-color:#;
+						width:75px;
+						height:25px;
+				  		font-size:10pt;
+                        font-family: Arial, Helvetica, sans-serif;
+				  	    border-color:#;
+                        border-width:0px;
+				  		color: #;
+						}
+
+
+
+
+
+<!--
+table.board        { border: 10 ridge #A2714A}
+-->
+</style>
+
+
+
+<style>
+.menulines{
+
+border:1px solid #A57B5A;
+
+}
+
+.menulines a{
+text-decoration:none;
+color:red;
+}
+
+
+</style>
+
+
+
+
+<script language="JavaScript1.2">
+
+/*
+Highlight menu effect script: By Dynamicdrive.com
+For full source, Terms of service, and 100s DTHML scripts
+Visit http://www.dynamicdrive.com
+*/
+
+function borderize(what,color){
+what.style.borderColor=color
+}
+
+function borderize_on(e){
+if (document.all)
+source3=event.srcElement
+else if (document.getElementById)
+source3=e.target
+if (source3.className=="menulines"){
+borderize(source3,"red")
+}
+else{
+while(source3.tagName!="TABLE"){
+source3=document.getElementById? source3.parentNode : source3.parentElement
+if (source3.className=="menulines")
+borderize(source3,"red")
+}
+}
+}
+
+function borderize_off(e){
+if (document.all)
+source4=event.srcElement
+else if (document.getElementById)
+source4=e.target
+if (source4.className=="menulines")
+
+borderize(source4,'#A57B5A')
+
+else{
+while(source4.tagName!="TABLE"){
+source4=document.getElementById? source4.parentNode : source4.parentElement
+if (source4.className=="menulines")
+
+borderize(source4,'#A57B5A')
+
+}
+}
+}
+
+</script>
+
+
+
+
+<script language="JavaScript">
+
+
+
+var controlpanelcontents;
+
+function ToggleControlPanel( tcVisible ) {
+	if (tcVisible=='show') {
+		document.all.controlpanel.style.visibility='visible';
+		//document.all.controlpaneltabledata.style.width='30%';
+		document.all.controlpaneltabledata.style.width='30%';
+		document.all.boardpanel.colspan='70%';
+		document.all.ShowControlPanelButton.style.visibility='hidden'
+		}
+	else {
+		document.all.controlpanel.style.visibility='hidden';
+		document.all.controlpaneltabledata.style.width='1%';
+		document.all.boardpanel.colspan='99%';
+		document.all.ShowControlPanelButton.style.visibility='visible'
+		}
+//<input name=controlpaneltoggle id=controlpaneltoggle type=button value='Hide' onclick="this.document.all.controlpanel.style.visibility='hidden';">
+//<input type=button value='Show' onclick="this.document.all.controlpanel.style.visibility='visible';">
+
+}
+
+</script>
+
+
+
+
+
+
+
+
+
+<style>
+<!--
+all.clsMenuItemNS{font: bold x-small Arial; color: #FFFFE3; text-decoration: none;}
+.clsMenuItemIE{text-decoration: none; font: bold xx-small Arial; color: 
+
+#FFFFE3;
+
+cursor: hand;}
+
+#MainTable a:hover {color:#FFFFFF; }
+
+
+
+
+
+-->
+</style>
+
+<style>
+<!--
+
+
+
+button.chessworld        {
+                        margin:1px;
+                        border-radius:15px;
+						background:#;
+						width:;
+						height:;
+				  		font-size:;
+				  		font-family:;
+				  		border-color:#;
+	                    border-width:0px;
+                    	color:#
+								}
+
+input.pod        {
+						background:#;
+								}
+
+button.chessworldnarrow        {
+                        margin:1px;
+                        border-radius:15px;
+						background:#;
+						width:0;
+						height:;
+				  		font-size:;
+				  		font-family:;
+				  		border-color:#;
+                        border-width:0px;
+				  		color:#
+						}
+
+
+
+
+-->
+</style>
+
+
+<style type="text/css">
+.title {
+font-family: "Helvetica",Arial;
+font-size: 16pt;
+font-weight: bold;
+}
+TD {
+
+
+font-family: Verdana, Arial, "Helvetica";
+
+
+
+
+font-size: 9pt;
+font-weight: normal;
+
+
+
+
+color:#;
+
+
+  
+
+}
+</style>
+
+
+
+<STYLE type="text/css">
+a, 
+a:focus, 
+a:active 
+{ 
+text-decoration: none; 
+} 
+
+
+
+a:hover
+{ 
+text-decoration: none; 
+} 
+
+
+
+            /* unvisited link */
+a:link {
+    color:#;
+}
+
+/* visited link */
+a:visited {
+    color:#;
+}
+
+/* mouse over link */
+a:hover {
+    color:#;
+}
+
+/* selected link */
+a:active {
+    color:#;
+}
+
+
+@media (max-width: 768px) {
+    h1, h2, h3 {
+        font-size: 2rem; /* Larger sizes for headings */
+    }
+    .tablefancy p {
+        font-size: 1.2rem; /* Standard size for paragraph text within fancy tables */
+    }
+}
+
+
+
+
+</style>
+
+<center><table bgcolor='#FFFAF0' bordercolor='#A57b5A' cellspacing='0' cellpadding='8' border='0' width='100%'></table>
+
+<script type="text/javascript">
+var nVwPressed = false;
+function pressVwBtn(nBtnId) {
+  if (nVwPressed) {
+    const prevBtn = document.getElementById("viewBtn" + nVwPressed);
+    if (prevBtn) prevBtn.className = "";
+  }
+
+  const currentBtn = document.getElementById("viewBtn" + nBtnId);
+  if (currentBtn) {
+    currentBtn.className = "pressedBtn";
+    nVwPressed = nBtnId;
+  }
+}
+
+
+// Firefox only
+function onPGNLoaded(frEvnt) {
+	var sFBody = frEvnt.target.result;
+	chess.readPGN(sFBody, document.chessCtrl3.plyerClr2[1].checked);
+}
+
+// Firefox only
+function loadPGNFile() {
+	var oFile = document.getElementById("PGNFileData").files[0];
+	if (oFile) {
+		var oFReader = new FileReader();
+		oFReader.onload = onPGNLoaded;
+		oFReader.readAsText(oFile);
+	}
+}
+
+function initChess() {
+	chess.useAI(document.chessCtrl1.useAI.checked);
+	chess.setPromotion(document.chessCtrl1.selPromo.selectedIndex);
+	chess.setFrameRate(Math.abs(Number(document.chessCtrl2.frameRateCtrl.value)) || 1000);
+	chess.setSide(document.chessCtrl2.selSide.selectedIndex);
+	chess.useKeyboard(document.chessCtrl2.KeybCtrl.checked);
+	chess.placeById("chessDesk");
+
+  setTimeout(() => {
+    fixBlackPawnSizes(); // ✅ Run once after board setup
+  }, 200);
+
+
+	document.chessCtrl1.plyDepthCtrl.value = "0";
+	chess.setView(1);
+  pressVwBtn(1);
+
+}
+</script>
+
+</head>
+
+<body style="margin-top:0; padding-top:0;" onload="initChess();">
+
+  <div class="intro" style="text-align:center; margin-top:10px;">
+    <h1 style="font-size:1.5rem; font-weight:600;">Play Online Chess Against the Computer</h1>
+  </div>
+
+
+<p style="font-size: 0.95rem; margin-top: 0;">
+
+  <strong>Online chess</strong> made easy at ChessWorld. <a href="/default.asp">Play chess online</a> against a beginner-friendly computer — no signup needed.
+
+</p>
+
+
+
+
+<div class="chess-layout">
+  <div class="chess-board-area">
+    <div id="chessDesk"></div>
+
+    </div><div style='text-align:center;'>
+  </div>
+
+  <div class="chess-controls-area">
+
+<form name="chessCtrl1" onsubmit="return false;">
+  <input
+    type="button"
+    id="hardComputerBtn"
+    class="chessworldmedium"
+    style="width:240px;"
+    onclick="window.open('garbochess.asp', '_self', '')"
+    value="Hard Computer"
+  />
+  <br><br>
+
+  <input id="useAIAsk" name="useAI" type="checkbox" onclick="chess.useAI(this.checked);" checked />
+  <label for="useAIAsk">Against machine</label>
+  <br><br>
+
+  <label for="selPromo">Promotion to:</label>
+  <select name="selPromo" id="selPromo" onchange="chess.setPromotion(this.selectedIndex);">
+    <option value="q">Queen</option>
+    <option value="r">Rook</option>
+    <option value="b">Bishop</option>
+    <option value="n">Knight</option>
+  </select>
+  <br><br>
+
+  <input
+    type="button"
+    class="chessworldmedium"
+    style="width:240px;"
+    name="strtBtn"
+    id="strtBtn"
+    value="New game"
+    onclick="chess.organize(this.form.plyerClr1[1].checked);"
+  />
+  <br><br>
+
+  <fieldset>
+    <legend>Human plays as:</legend>
+    <input type="radio" name="plyerClr1" id="white1" value="white" checked />
+    <label for="white1">White</label>
+
+    <input type="radio" name="plyerClr1" id="black1" value="black" />
+    <label for="black1">Black</label>
+  </fieldset>
+
+  <input
+    type="hidden"
+    name="plyDepthCtrl"
+    id="plyDepthCtrl"
+    value="3"
+    onkeypress="if(event.keyCode === 13 && chess.setPlyDepth(this.value)) {
+      alert('Ply depth set.' + (Number(this.value) > 2 ? '\nAttention! The game could be very slow.' : ' Good game :)'));
+    }"
+  />
+
+  <div id="chessToolBar" style="width:220px; height:5px;">
+    <div id="setViewBtns" style="padding-top:30px;">
+      <img class="tbBtn" src="icons/skip-backward.png" alt="Skip to beginning" onclick="chess.backToStart();" />
+      <img class="tbBtn" src="icons/backward.png" alt="Back 10 moves" onclick="chess.navigate(-10, true);" />
+      <img class="tbBtn" src="icons/reverse-play.png" alt="Back one move" onclick="chess.navigate(-1, true);" />
+      <img class="tbBtn" src="icons/stop.png" alt="Stop motion" onclick="chess.stopMotion();" />
+      <img class="tbBtn" src="icons/play.png" alt="Play forward" onclick="chess.navigate(1, true);" />
+      <img class="tbBtn" src="icons/forward.png" alt="Forward 10 moves" onclick="chess.navigate(10, true);" />
+      <img class="tbBtn" src="icons/skip-forward.png" alt="Skip to end" onclick="chess.returnToEnd();" />
+      <br><br />
+      <img class="tbBtn" src="icons/go-previous.png" alt="Previous move" onclick="chess.navigate(-1);" />
+      <img class="tbBtn" src="icons/go-next.png" alt="Next move" onclick="chess.navigate(1);" />
+      <img class="tbBtn" src="icons/help-hint.png" alt="Help/hint" onclick="chess.help();" />
+      <br><br />
+    </div>
+  </div>
+</form>
+
+<br>
+
+<form name="chessCtrl2" onsubmit="return false;">
+  <label for="selSide">View side:</label>
+  <select name="selSide" id="selSide" onchange="chess.setSide(this.selectedIndex);">
+    <option value="w">White</option>
+    <option value="b">Black</option>
+    <option value="h" selected>Human side</option>
+  </select>
+  <br><br>
+
+  <input id="useKeybAsk" name="KeybCtrl" type="checkbox" onclick="chess.useKeyboard(this.checked);" checked />
+  <label for="useKeybAsk">Enable keyboard</label>
+  <br><br>
+
+  <label for="frameRateCtrl">Motion frame rate:</label>
+  <input
+    type="text"
+    name="frameRateCtrl"
+    id="frameRateCtrl"
+    value="1000"
+    size="5"
+    onchange="var nMs=new Number(this.value);if(!isNaN(nMs)&&nMs>0){chess.setFrameRate(nMs);}"
+  /> ms
+</form>
+
+
+
+    <br /><br />
+    <input type='button' class='chessworldmedium' style='width:px;' onclick="window.open('../forums_thread_show_one_posteronleftstyle.asp?PostsTotal=7&maxpostsshow=0&forumid=4&ThreadID=17416120', '_self', '')" value='Feedback'><br><br>
+
+  </div>
+</div>
+
+
+
+
+
+<script>
+function isMobileViewport() {
+  return window.matchMedia("(max-width: 600px)").matches;
+}
+
+function isiPhone() {
+  return /iPhone/i.test(navigator.userAgent);
+}
+
+function isLikelyiOS() {
+  return /iPad|iPhone|iPod/.test(navigator.userAgent) || 
+         (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1); // iPadOS
+}
+
+
+
+function isBlackPawnTooTall() {
+  const testSpan = document.createElement("span");
+  testSpan.textContent = "♟";
+  testSpan.style.fontSize = "3.5rem";
+  testSpan.style.fontFamily = `"Arial Unicode MS", "Segoe UI Symbol", "Noto Sans Symbols", "Symbola", sans-serif`;
+  testSpan.style.visibility = "hidden";
+  testSpan.style.position = "absolute";
+  document.body.appendChild(testSpan);
+
+  const height = testSpan.getBoundingClientRect().height;
+  document.body.removeChild(testSpan);
+
+  return height > 60; // Adjust threshold if needed (e.g. >60px suggests it's oversized)
+}
+
+
+function fixBlackPawnSizes() {
+ if (!isLikelyiOS() || !isBlackPawnTooTall()) return;
+
+ //   if (!isBlackPawnTooTall()) return;
+ // if (!isMobileViewport()) return; // ✅ Skip this fix on desktop in theory but Ipad is wide
+
+  document.querySelectorAll('#flatChessboard td span').forEach(function (el) {
+    const text = el.textContent.normalize("NFKD");
+    if (text.includes('♟')) {
+      el.style.fontSize = '2rem';
+      el.style.lineHeight = '1';
+      el.style.display = 'inline-block';
+      el.style.verticalAlign = 'top';
+      el.style.transform = 'translateY(0.7rem)'; // ✅ Push down a bit
+    }
+  });
+}
+
+
+
+document.addEventListener("DOMContentLoaded", function () {
+  setTimeout(() => {
+    fixBlackPawnSizes();
+
+    const board = document.querySelector('#flatChessboard');
+    if (board) {
+      const observer = new MutationObserver(() => {
+        fixBlackPawnSizes();
+      });
+      observer.observe(board, {
+        childList: true,
+        subtree: true,
+      });
+    }
+  }, 500); // Ensure board is rendered first
+});
+</script>
+
+
+<section style="font-size: 0.9rem; max-width: 920px; margin: 24px auto; text-align: center;">
+  <p>ChessWorld offers a free online chess board powered by beginner-friendly AI. No login required. Ideal for casual players, learners, and those looking to play chess online without commitment.</p>
+</section>
+
+
+
+</div>
+
+
+
+</body>
+</html>
